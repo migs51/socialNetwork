@@ -58,7 +58,7 @@ router.post(
       linkedin,
     } = req.body;
 
-    //Build profile object
+    //Build profile object to insert into db . check if fields are actually coming in before we set it
     const profileFields = {};
     profileFields.user = req.user.id;
     if (company) profileFields.company = company;
@@ -80,6 +80,25 @@ router.post(
     if (instagram) profileFields.social.instagram = instagram;
 
     try {
+      //find the current profile by the user id
+      let profile = await Profile.findOne({ user: req.user.id });
+
+      if (profile) {
+        //if there is a profile Update it and send back the profile
+        profile = await Profile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: profileFields },
+          { new: true }
+        );
+
+        return res.json(profile);
+      }
+
+      //if no profile found then Create a new one
+      profile = new Profile(profileFields);
+
+      await profile.save();
+      res.json(profile);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
