@@ -1,0 +1,5 @@
+{
+  "mongoURI": "mongodb+srv://migs51:Crispin51@socialnetwork-nng2o.mongodb.net/test?retryWrites=true&w=majority",
+
+  "jwtSecret": "mysecrettoken"
+}
