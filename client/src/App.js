@@ -4,22 +4,29 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+//Redux
+//react-redux connects redux to react
+//Provider allows us to pass in app level state to all our components
+import { Provider } from 'react-redux';
+import store from './store';
 
 import './App.css';
 
 const App = () => (
-  <Router>
-    <Fragment>
-      <Navbar />
-      <Route exact path='/' component={Landing} />
-      <section className='container'>
-        <Switch>
-          <Route exact path='/register' component={Register} />
-          <Route exact path='/login' component={Login} />
-        </Switch>
-      </section>
-    </Fragment>
-  </Router>
+  <Provider store={store}>
+    <Router>
+      <Fragment>
+        <Navbar />
+        <Route exact path='/' component={Landing} />
+        <section className='container'>
+          <Switch>
+            <Route exact path='/register' component={Register} />
+            <Route exact path='/login' component={Login} />
+          </Switch>
+        </section>
+      </Fragment>
+    </Router>
+  </Provider>
 );
 
 export default App;
